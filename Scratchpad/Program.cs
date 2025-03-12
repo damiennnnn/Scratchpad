@@ -2,10 +2,12 @@
 
 // ReSharper disable ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
 
+using Scratchpad.Maths;
+
 var prices = new int[] { 1,2,3,4,5};
 var profit = maxProfit(prices);
 
-Console.WriteLine(NthRoot(6541819355,2,7));
+Console.WriteLine(Root.NthRoot(50000, 2));
 
 int maxProfit(int[] prices)
 {
@@ -64,18 +66,7 @@ double FindMedianSortedArrays(int[] nums1, int[] nums2)
     return result;
 }
 
-double NthRoot(double num, double n, double initialGuess)
-{
-    // Newton's Method
-    double result = ((n-1)/n * initialGuess) + (num/n)*(1/Math.Pow(initialGuess, n-1));
-    
-    // Continue until accurate to 9 d.p.
-    if (Math.Abs(result - initialGuess) < 0.000000001f)
-        return result;
-    
-    Console.WriteLine(result);
-    return NthRoot(num, n, result);        
-}
+
 
 
 ListNode AddTwoNumbers(ListNode l1, ListNode l2)
