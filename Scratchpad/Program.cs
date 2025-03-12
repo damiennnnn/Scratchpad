@@ -5,7 +5,7 @@
 var prices = new int[] { 1,2,3,4,5};
 var profit = maxProfit(prices);
 
-Console.WriteLine(NthRoot(4,2,7, 20));
+Console.WriteLine(NthRoot(6541819355,2,7));
 
 int maxProfit(int[] prices)
 {
@@ -64,14 +64,17 @@ double FindMedianSortedArrays(int[] nums1, int[] nums2)
     return result;
 }
 
-double NthRoot(double num, double n, double initialGuess, double iterations = 5)
+double NthRoot(double num, double n, double initialGuess)
 {
-    if (iterations == 0)
-        return initialGuess;
-    
+    // Newton's Method
     double result = ((n-1)/n * initialGuess) + (num/n)*(1/Math.Pow(initialGuess, n-1));
+    
+    // Continue until accurate to 9 d.p.
+    if (Math.Abs(result - initialGuess) < 0.000000001f)
+        return result;
+    
     Console.WriteLine(result);
-    return NthRoot(num, n, result, --iterations);        
+    return NthRoot(num, n, result);        
 }
 
 
