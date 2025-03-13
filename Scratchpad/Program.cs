@@ -9,6 +9,108 @@ var profit = maxProfit(prices);
 
 Console.WriteLine(Root.NthRoot(50000, 2));
 
+var list4 = FourSum([2,2,2,2,2], 8);
+Console.WriteLine();
+
+IList<IList<int>> FourSum(int[] nums, int target)
+{
+    var result = new List<IList<int>>();
+    Array.Sort(nums);
+    
+    // Avoid edge cases where calculation of sum results in int overflow 
+    var longs = nums.Select(i => (long)i).ToArray();
+    
+    for (int h = 0; h < longs.Length - 3; h++)
+    {
+        if (h > 0 && longs[h] == longs[h - 1]) continue;
+
+        // Early termination; if the first 4 sorted nums are already bigger than target, end now.
+        if (longs[h] + longs[h + 1] + longs[h + 2] + longs[h + 3] > target) break;
+        
+        // Early termination; if the largest possible sum is below target, continue.
+        if (longs[h] + longs[^3] + longs[^2] + longs[^1] < target) continue;
+
+        for (int i = h + 1; i < longs.Length - 2; i++)
+        {
+            if (i > h + 1 && longs[i] == longs[i - 1]) continue;
+
+            // Early termination; if the first 4 sorted nums are already bigger than target, end now.
+            if (longs[h] + longs[i] + longs[i + 1] + longs[i + 2] > target) break;
+            
+            // Early termination; if the largest possible sum is below target, continue.
+            if (longs[h] + longs[i] + longs[^2] + longs[^1] < target) continue;
+
+            int l = i + 1;
+            int r = longs.Length - 1;
+
+            while (l < r)
+            {
+                long sum = longs[h] + longs[i] + longs[l] + longs[r];
+
+                if (sum == target)
+                {
+                    result.Add(new List<int> { (int)longs[h], (int)longs[i], (int)longs[l], (int)longs[r] });
+
+                    while (l < r && longs[l] == longs[l + 1]) l++;
+                    while (l < r && longs[r] == longs[r - 1]) r--;
+
+                    l++;
+                    r--;
+                }
+                else if (sum < target)
+                {
+                    l++;
+                }
+                else
+                {
+                    r--;
+                }
+            }
+        }
+    }
+
+    return result;
+}
+
+List<List<int>> ThreeSum(int[] nums, int target)
+{
+    var result = new List<List<int>>();
+    Array.Sort(nums);
+
+    for (int i = 0; i < nums.Length - 2; i++)
+    {
+        if (i > 0 && nums[i] == nums[i - 1]) continue;
+
+        int l = i + 1;
+        int r = nums.Length - 1;
+
+        while (l < r)
+        {
+            long sum = (long)nums[i] + (long)nums[l] + (long)nums[r];
+
+            if (sum == target)
+            {
+                result.Add(new List<int> { nums[i], nums[l], nums[r] });
+                
+                while (l < r && nums[l] == nums[l + 1]) l++;
+                while (l < r && nums[r] == nums[r - 1]) r--;
+                
+                l++;
+                r--;
+            }
+            else if (sum < target)
+            {
+                l++;
+            }
+            else
+            {
+                r--;
+            }
+        }
+    }
+
+    return result;
+}
 int maxProfit(int[] prices)
 {
     int profit = 0;
